@@ -6,7 +6,7 @@ export class PassiveTreeService {
 	groupMap: Record<string, GGGPassiveTree.Group> = {};
 	orbitPoints: InternalPassiveTree.OrbitPoint[][] = [];
 	nodeMap: Record<string, InternalPassiveTree.Node> = {};
-	connections: InternalPassiveTree.Connection[] = [];
+	connectionMap: Record<string, InternalPassiveTree.Connection[]> = {};
 	data: GGGPassiveTree.Data;
 
 	constructor(data: GGGPassiveTree.Data) {
@@ -101,7 +101,7 @@ export class PassiveTreeService {
 		);
 	}
 
-	parseConnections(): InternalPassiveTree.Connection[] {
+	parseConnections(): Record<string, InternalPassiveTree.Connection[]> {
 		let connections: InternalPassiveTree.Connection[] = [];
 		Object.keys(this.nodeMap).forEach((nodeOneId) => {
 			const nodeOne = this.nodeMap[nodeOneId];
@@ -134,7 +134,17 @@ export class PassiveTreeService {
 			})
 		});
 
-		return connections;
+		return connections.reduce(
+			(acc, cur) => {
+				const fromNodeId = cur.fromNode.nodeId;
+
+				return ({
+					...acc,
+					[fromNodeId]: acc[fromNodeId] ? [...acc[fromNodeId], cur] : [cur],
+				});
+			},
+			{},
+		);
 	}
 
 	getData(): InternalPassiveTree.Data {
@@ -152,12 +162,12 @@ export class PassiveTreeService {
 
 		this.groupMap = this.parseGroups();
 		this.nodeMap = this.parseNodes();
-		this.connections = this.parseConnections();
+		this.connectionMap = this.parseConnections();
 
 		return {
 			constants,
 			nodes: this.nodeMap,
-			connections: this.connections,
+			connectionMap: this.connectionMap,
 		};
 	}
 }

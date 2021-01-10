@@ -36,12 +36,19 @@ const shouldRenderConnection = ({ fromNode, toNode }: InternalPassiveTree.Connec
 
 export function PassiveTree({ data }: PassiveTreeProps) {
 	const { minX, minY, maxX, maxY, skillsPerOrbit, orbitRadii } = data.constants;
-	const { nodes, connections } = data;
+	const { nodes, connectionMap } = data;
 	const width = maxX - minX;
 	const height = maxY - minY;
 
 	const nodesFiltered = Object.keys(nodes).map((nodeId) => nodes[nodeId]).filter(shouldRenderNode);
-	const connectionsFiltered = connections.filter(shouldRenderConnection);
+	const connectionsFiltered = Object.keys(connectionMap)
+		.map((fromNodeId) => connectionMap[fromNodeId])
+		.reduce(
+			(acc, cur) =>
+				cur.reduce((innerAcc, innerCur) => [...innerAcc, innerCur], acc),
+			[]
+		)
+		.filter(shouldRenderConnection);
 
 	return (
 		<svg viewBox={`${minX} ${minY} ${width} ${height}`}>
