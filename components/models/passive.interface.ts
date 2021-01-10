@@ -62,7 +62,7 @@ export declare namespace InternalPassiveTree {
 
 	export interface Data {
 		constants: Constants;
-		connections: Connection[];
+		connectionMap: Record<string, Connection[]>;
 		nodes: Record<string, Node>;
 	}
 }

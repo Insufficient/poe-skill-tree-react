@@ -2,13 +2,17 @@ import { InternalPassiveTree } from '../components/models';
 import { parseTreeData } from '../lib/parse-tree-data';
 import { PassiveTree } from '../components/PassiveTree';
 import styles from '../styles/PassiveTreePage.module.css';
+import { useEffect, useState } from 'react';
+import { enableAllPlugins } from "immer";
+
+enableAllPlugins();
 
 export interface PassiveTreePageProps {
 	data: InternalPassiveTree.Data,
 	selectedNodes: string[]
 }
 
-const passives = [
+const passivesOne = [
 	367,
 	2521,
 	3452,
@@ -109,30 +113,134 @@ const passives = [
 	65097
 ];
 
-function PassiveTreePage({ data, selectedNodes }: PassiveTreePageProps) {
-	const dataAdjusted = {
-		...data,
+const passivesTwo = [
+	720,
+	1461,
+	2094,
+	2185,
+	2715,
+	3314,
+	4481,
+	4944,
+	5082,
+	5237,
+	5443,
+	6797,
+	7112,
+	9206,
+	9373,
+	9469,
+	12412,
+	12794,
+	12948,
+	13202,
+	14292,
+	14804,
+	16079,
+	17171,
+	18703,
+	19858,
+	20807,
+	22266,
+	23334,
+	23912,
+	24133,
+	25178,
+	25260,
+	25511,
+	26067,
+	27656,
+	27788,
+	28658,
+	28995,
+	29870,
+	30455,
+	30679,
+	30969,
+	32477,
+	32514,
+	32555,
+	32763,
+	33196,
+	36221,
+	36281,
+	36287,
+	38149,
+	39665,
+	39718,
+	39821,
+	40132,
+	41119,
+	41989,
+	42178,
+	42443,
+	42804,
+	43385,
+	45313,
+	46277,
+	46882,
+	47362,
+	48614,
+	49308,
+	49459,
+	49900,
+	51404,
+	51881,
+	53002,
+	53086,
+	54142,
+	55392,
+	55750,
+	56149,
+	56295,
+	56646,
+	56856,
+	57199,
+	58474,
+	58854,
+	59146,
+	59220,
+	59606,
+	59837,
+	60735,
+	60942,
+	61306,
+	61327,
+	61627,
+	61834,
+	63228,
+	64235,
+	64878,
+	65502
+];
+
+function ViewProfilePassiveTree({ data }: PassiveTreePageProps) {
+	const [passives, setPassives] = useState(0);
+	const [selected, setSelected] = useState([]);
+
+	const togglePassives = () => {
+		if (passives === 0) {
+			setPassives(1);
+			setSelected(passivesOne.map((a) => a.toString()));
+		} else {
+			setPassives(0);
+			setSelected(passivesTwo.map((a) => a.toString()));
+		}
 	};
-
-	// make viewport tighter
-	dataAdjusted.constants.minX += 2000;
-	dataAdjusted.constants.minY += 400;
-
-	if (!selectedNodes) {
-		selectedNodes = passives.map((nodeId) => nodeId.toString());
-	}
 
 	return (
 		<div className={styles.container}>
 			<h1>Path of Exile Static Passive Tree (React)</h1>
+			<button onClick={() => togglePassives()}>Toggle passives</button>
+
 			<div className={styles.box}>
-				<PassiveTree data={data} selectedNodes={selectedNodes}/>
+				<PassiveTree data={data} selectedNodes={selected}/>
 			</div>
 		</div>
 	)
 }
 
-export default PassiveTreePage;
+export default ViewProfilePassiveTree;
 
 const adjustViewport = (data) => {
 	return {

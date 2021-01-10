@@ -1,0 +1,12 @@
+@value colors: "./colours.css";
+@value primary, highlight from colors;
+
+.container {
+	stroke: primary;
+	stroke-width: 10;
+}
+
+.containerSelected {
+	stroke: highlight;
+	stroke-width: 25;
+}

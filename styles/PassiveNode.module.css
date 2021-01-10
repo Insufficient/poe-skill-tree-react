@@ -1,0 +1,10 @@
+@value colors: "./colours.css";
+@value primary, highlight from colors;
+
+.container {
+	fill: primary;
+}
+
+.containerSelected {
+	fill: highlight;
+}
