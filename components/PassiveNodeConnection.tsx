@@ -1,5 +1,6 @@
 import { InternalPassiveTree } from './models';
 import { memo } from 'react';
+import styles from '../styles/PassiveNodeConnection.module.css';
 
 export interface PassiveNodeConnectionProps {
 	connection: InternalPassiveTree.Connection;
@@ -30,10 +31,9 @@ function PassiveNodeConnection({ connection, orbitRadii, skillsPerOrbit }: Passi
 	if (isCurved) {
 		return (
 			<>
-				<path d={`M ${x1} ${y1} A ${orbitRadius} ${orbitRadius}, 0, 0 ${sweepFlag}, ${x2} ${y2}`}
+				<path className={`${styles.container} ${connection.isSelected ? styles.containerSelected : ''}`}
+							d={`M ${x1} ${y1} A ${orbitRadius} ${orbitRadius}, 0, 0 ${sweepFlag}, ${x2} ${y2}`}
 				      fill="transparent"
-				      stroke="black"
-				      strokeWidth="10"
 				      key={`${fromNode.nodeId},${toNode.nodeId}`}
 				      data-from={fromNode.nodeId}
 				      data-to={toNode.nodeId}
@@ -42,14 +42,12 @@ function PassiveNodeConnection({ connection, orbitRadii, skillsPerOrbit }: Passi
 		)
 	} else {
 		return (
-			<line
-				x1={x1} y1={y1}
-				x2={x2} y2={y2}
-				stroke="blue"
-				strokeWidth="10"
-				key={`${fromNode.nodeId},${toNode.nodeId}`}
-				data-from={fromNode.nodeId}
-				data-to={toNode.nodeId}
+			<line className={`${styles.container} ${connection.isSelected ? styles.containerSelected : ''}`}
+						x1={x1} y1={y1}
+						x2={x2} y2={y2}
+						key={`${fromNode.nodeId},${toNode.nodeId}`}
+						data-from={fromNode.nodeId}
+						data-to={toNode.nodeId}
 			/>
 		);
 	}
