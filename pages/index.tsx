@@ -134,21 +134,10 @@ function PassiveTreePage({ data, selectedNodes }: PassiveTreePageProps) {
 
 export default PassiveTreePage;
 
-const adjustViewport = (data) => {
-	return {
-		...data,
-		constants: {
-			...data.constants,
-			minX: data.constants.minX + 2000,
-			minY: data.constants.minY + 400,
-		}
-	}
-}
-
 export async function getStaticProps() {
 	const data = parseTreeData();
 
 	return {
-		props: { data: adjustViewport(data) }
+		props: { data }
 	}
 }

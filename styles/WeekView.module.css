@@ -1,0 +1,35 @@
+@value colors: "./colours.css";
+@value primary, highlight from colors;
+
+.container {
+
+}
+
+.week {
+  list-style: none;
+}
+
+.week ul {
+}
+
+.weekItem {
+  list-style: none;
+
+  height: 16px;
+  width: 16px;
+
+  border-radius: 50%;
+  background-color: primary;
+
+  border: none;
+
+  margin-right: 10px;
+}
+
+.weekItem:hover {
+  cursor: pointer;
+}
+
+.weekItemSelected {
+  background-color: highlight;
+}
